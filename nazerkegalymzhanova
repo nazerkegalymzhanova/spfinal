@@ -1,0 +1,13 @@
+#! /bin/bash
+
+# run the script like this:
+# $ chmod +x ./path/to/top
+# $ ./path/to/top 10 ./path/to/log.txt
+
+sum=$(grep '28/Oct/2006' $2 | cut -f7 -d' ' |sort -r | uniq -c | sort -nr | head -$1 | gawk '{sum+= $1;} END {print sum; }')
+
+grep '28/Oct/2006' $2 | cut -f7 -d' ' | sort -r | uniq -c | sort -nr | gawk -v sum="$sum" '{printf " %s.%s - %.1d - %.1f%\n", NR, $2, $1, ($1/sum* 100)}' | head -$1
+
+# here comes your solution
+# e.g.
+cut -d' ' -f1 $2 | head -$1 | cat -n
